@@ -7,6 +7,7 @@ use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
+use Auth;
 
 class AuthController extends Controller
 {
@@ -23,6 +24,11 @@ class AuthController extends Controller
 
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
+    public function showRegistrationForm() {
+        if (Auth::check()) {
+            return view('register');
+        } else { return redirect('/'); }
+    }
     /**
      * Where to redirect users after login / registration.
      *
@@ -49,8 +55,9 @@ class AuthController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
+            'name' => 'required|max:15',
+            // 'type' => 'required',
+            'email' => 'required|email|max:55|unique:users',
             'password' => 'required|min:6|confirmed',
         ]);
     }
@@ -66,6 +73,7 @@ class AuthController extends Controller
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'type' => $data['type'],
             'password' => bcrypt($data['password']),
         ]);
     }
