@@ -38,6 +38,27 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('type') ? ' has-error' : '' }}">
+                            <label for="type" class="col-md-4 control-label">Tipo de Usuarios</label>
+
+                            <div class="col-md-6">
+                                <select name="type" id="type" class="form-control">
+                                    <option value="0">Super administrador</option>
+                                    <option value="1">administrador</option>
+                                    <option value="2">usuario</option>
+                                </select>
+                                <!--<input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}">-->
+
+                                <!--@if ($errors->has('email'))-->
+                                <!--    <span class="help-block">-->
+                                <!--        <strong>{{ $errors->first('email') }}</strong>-->
+                                <!--    </span>-->
+                                <!--@endif-->
+                            </div>
+                        </div>
+
+                        
+
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Password</label>
 
