@@ -15,7 +15,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::auth();
+
 
 Route::get('/home', 'HomeController@index');
-Route::get('/registrar', 'userController@registrar');
+Route::auth();
+
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/registrar', 'userController@registrar');
+    Route::resource('/trabajadores', 'trabajadoresController');
+    Route::resource('/fincas', 'fincasController');
+    Route::resource('/actividades', 'actividadesController');
+    Route::resource('/planilla', 'planillaController');
+});

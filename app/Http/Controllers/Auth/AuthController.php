@@ -25,8 +25,9 @@ class AuthController extends Controller
     use AuthenticatesAndRegistersUsers, ThrottlesLogins;
 
     public function showRegistrationForm() {
+            //return view('auth.register');
         if (Auth::check()) {
-            return view('register');
+            return view('auth.register');
         } else { return redirect('/'); }
     }
     /**
