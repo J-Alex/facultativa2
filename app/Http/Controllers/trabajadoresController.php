@@ -19,7 +19,6 @@ class trabajadoresController extends Controller
     public function index()
     {
         $trabajadores = Trabajadores::all();
-        //$trabajadores = DB::table('trabajadores')->get();
         return view('trabajadores',['trabajadores'=>$trabajadores]);
         return view('trabajadores')->with('trabajadores',$trabajadores);
     }
@@ -79,7 +78,6 @@ class trabajadoresController extends Controller
     public function edit($id)
     {
         $trabajador = Trabajadores::where("id", $id)->get();
-        //return $trabajador;
         return view('trabajadoresEdit')->with('trabajador',$trabajador);
     }
 
@@ -92,7 +90,21 @@ class trabajadoresController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $trabajador = Trabajadores::find($id);
+        
+        $trabajador->nombres = $data['nombres'];
+        $trabajador->apellidos = $data['apellidos'];
+        $trabajador->inss = $data['inss'];
+        $trabajador->civil = $data['civil'];
+        $trabajador->telefono = $data['telefono'];
+        $trabajador->cedula = $data['cedula'];
+        $trabajador->tipo = $data['tipo'];
+        $trabajador->cargo = $data['cargo'];
+        $trabajador->genero = $data['genero'];
+        
+        $trabajador->save();
+        return redirect('/trabajadores');
     }
 
     /**

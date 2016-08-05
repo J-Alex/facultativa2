@@ -2,7 +2,10 @@
 
 @section('content')
     @foreach($trabajador as $worker)
-        <form action="/trabajadores/{{ $worker ['id'] }}" method="put">
+        <form action='{{ url("/trabajadores/$worker->id ") }}' method="POST">
+            
+            {{ csrf_field() }}
+            
             <div class="form-group">
                 <label for="nombres" class="control-label">Nombres: </label>
                 <input name="nombres" type="text" class="form-control" value="{{ $worker ['nombres'] }}">
@@ -30,7 +33,7 @@
             <div class="form-group">
                 <label for="tipo" class="control-label">Tipo: </label>
                 <select name="tipo" class="form-control">
-                    <option value="{{ $worker ['tipo'] }}" selected></option>
+                    <option value="{{ $worker ['tipo'] }}" selected>{{ $worker ['tipo'] }}</option>
                     <option value="quincenal">Quincenal</option>
                     <option value="catorcenal">Catorcenal</option>
                 </select>
@@ -45,6 +48,7 @@
             </div>
             <div class="form-group">
                 <input type="submit" class="btn btn-default btn-primary" value="Actualizar">
+                <!--<button type="submit" class="btn btn-default">Submit</button>-->
             </div>
         </form>
     @endforeach

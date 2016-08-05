@@ -23,7 +23,9 @@ Route::auth();
 Route::group(['middleware' => ['auth']], function () {
     Route::get('/registrar', 'userController@registrar');
     Route::resource('/trabajadores', 'trabajadoresController');
+    Route::post('/trabajadores/{trabajadores}', 'trabajadoresController@update');
     Route::resource('/fincas', 'fincasController');
+    Route::post('/fincas/{fincas}', 'fincasController@update');
     Route::resource('/actividades', 'actividadesController');
     Route::resource('/planilla', 'planillaController');
 });

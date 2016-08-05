@@ -77,7 +77,13 @@ class fincasController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $finca = Finca::find($id);
+        
+        $finca->nombre = $data['nombre'];
+        
+        $finca->save();
+        return redirect('/fincas');
     }
 
     /**
