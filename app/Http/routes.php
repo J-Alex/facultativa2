@@ -27,5 +27,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('/fincas', 'fincasController');
     Route::post('/fincas/{fincas}', 'fincasController@update');
     Route::resource('/actividades', 'actividadesController');
+    Route::post('/actividades/{actividades}', 'actividadesController@update');
     Route::resource('/planilla', 'planillaController');
 });

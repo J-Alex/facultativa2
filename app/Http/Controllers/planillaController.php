@@ -9,6 +9,7 @@ use App\Http\Requests;
 use App\Trabajadores;
 use App\Finca;
 use App\Actividad;
+use App\Quincenal;
 
 class planillaController extends Controller
 {
@@ -19,7 +20,8 @@ class planillaController extends Controller
      */
     public function index()
     {
-        $quince = Trabajadores::where('tipo','Super-Admi')->get();
+        //$quince = Trabajadores::where('tipo','Super-Admi')->get();
+        $quince = Quincenal::all();
         return view('planilla')->with('quinceT', $quince);
     }
 
@@ -30,8 +32,10 @@ class planillaController extends Controller
      */
     public function create()
     {
-        
-        return view('planillaCreate');
+        $trabajadores = Trabajadores::all();
+        $actividades = Actividad::all();
+        $fincas = Finca::all();
+        return view('planillaCreate')->with(['trabajadores'=>$trabajadores, 'fincas'=>$fincas, 'actividades'=>$actividades]);
     }
 
     /**
@@ -42,7 +46,22 @@ class planillaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $salario_basico = 5000;
+        
+        $planilla = new Quincenal($request->all());
+        
+        $planilla->feriado = $planilla['diasFeriados'] * (($salario_basico*15)*2);
+        $planilla->salario_base = $salario_basico;
+        $planilla->tot_h_ext = $planilla['h_ext']*(($salario_basico/15)/8)*2;
+        $planilla->septimo = $salario_basico/15;
+        $planilla->devengado = $planilla['feriado'] + $planilla['salario_base'] + $planilla['tot_h_ext'] + $planilla['septimo'] + $planilla['otros'];
+        $planilla->inss_lab = $planilla['devengado']*0.0625;
+        $planilla->total_pagar = $planilla['devengado'] - $planilla['inss_lab'];
+        $planilla->vacaciones = ($planilla['total_pagar'] - $planilla['tot_h_ext']) * 0.083333;
+        $planilla->aguinaldo = $planilla['vacaciones'];
+        
+        return $planilla;
+        $planilla->save();
     }
 
     /**

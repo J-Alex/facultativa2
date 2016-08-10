@@ -10,7 +10,7 @@
                             <tr class="active">
                                 <th>Actividad</th>
                                 <th>Finca</th>
-                                <th>Editar</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>

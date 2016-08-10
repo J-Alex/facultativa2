@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Actividad;
 use App\Finca;
-
+use DB;
 class actividadesController extends Controller
 {
     /**
@@ -64,10 +64,18 @@ class actividadesController extends Controller
      */
     public function edit($id)
     {
-        //return $id;
+        //$actividad = Actividad::where("id", $id)->leftjoin('fincas', 'actividades.idfinca', '=', 'fincas.idselect')->get();
+        /*$actividad = DB::table('actividades')
+                        ->where("id","=",$id)
+                        ->get();*/
         $actividad = Actividad::where("id", $id)->get();
+        $Fincas = Finca::all();
+        
+        $finca = Finca::where("id",$actividad[0]->idfinca)->get();
+        $actividad[0]->nombreFinca = $finca[0]->nombre;
+        
         //return $actividad;
-        return view('actividadesEdit')->with('actividad',$actividad);
+        return view('actividadesEdit')->with(['actividad'=>$actividad, 'fincas'=>$Fincas]);
     }
 
     /**
@@ -79,7 +87,14 @@ class actividadesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->all();
+        $actividad = Actividad::find($id);
+        
+        $actividad->nombre = $data['nombre'];
+        $actividad->idfinca = $data['finca'];
+        
+        $actividad->save();
+        return redirect('/actividades');
     }
 
     /**
